@@ -1,61 +1,28 @@
 <script lang="ts">
-	import { i18n } from '$lib/i18n';
-	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
-	import Header from './Header.svelte';
-	import '../app.css';
+	import 'bootstrap/dist/css/bootstrap.min.css';
+	import 'bootstrap/dist/js/bootstrap.bundle';
+	import '$style/global.css';
 
-	let { children } = $props();
+	import { onMount } from 'svelte';
+	import { initThemes, theme } from '$store/theme';
+	import Header from '$lib/components/header/Header.svelte';
+	
+	onMount(() => {
+		initThemes()
+	});
 </script>
 
-<ParaglideJS {i18n}>
-	<div class="app">
-		<Header></Header>
+<main class={$theme}>
+	<Header />
+	<slot />
+</main>
 
-		<main>
-			{@render children()}
-		</main>
-
-		<footer>
-			<p>
-				visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to learn about SvelteKit
-			</p>
-		</footer>
-	</div>
-</ParaglideJS>
-
-<style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
+<style lang="scss">
+	@use '$style/main' as *;
 
 	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
+		background-color: var(--body-bg);
+		height: 100vh;
 	}
 
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
-	}
 </style>
