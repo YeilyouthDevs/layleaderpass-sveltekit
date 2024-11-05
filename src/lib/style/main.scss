@@ -1,0 +1,16 @@
+// main.scss
+
+@use 'theme' as th;
+@use 'mixins' as mx;
+
+:root {
+  @include mx.generate-css-variables(th.$light-theme);
+}
+
+.dark {
+  @include mx.generate-css-variables(th.$dark-theme);
+}
+$width-lg-down: 991.98px;
+$width-lg-up: 992px;
+$width-md-down: 767.98px;
+$width-md-up: 768px;

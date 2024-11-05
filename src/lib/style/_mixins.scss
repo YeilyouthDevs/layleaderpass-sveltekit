@@ -1,0 +1,7 @@
+// _mixins.scss
+
+@mixin generate-css-variables($theme-map) {
+  @each $key, $value in $theme-map {
+    --#{$key}: #{$value};
+  }
+}

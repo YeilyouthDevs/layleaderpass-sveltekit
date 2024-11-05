@@ -1,0 +1,30 @@
+// themes.scss
+
+// Light 테마 정의
+$light-theme: (
+  body-bg: white,
+  color-default: rgb(36, 36, 36),
+  color-primary: rgb(38, 149, 240),
+  color-secondary: rgb(134, 134, 134),
+  color-danger: red,
+  color-warn: orange,
+  color-split: rgb(216, 216, 216),
+);
+
+// Dark 테마 정의 (Light 테마 확장)
+@use 'sass:map';
+
+$dark-theme: map.merge(
+  $light-theme,
+  (
+    body-bg: rgb(63, 63, 63),
+    color-default: rgb(236, 236, 236),
+    color-primary: rgb(93, 172, 236),
+    color-secondary: rgb(185, 185, 185),
+    color-split: rgb(146, 146, 146)
+  )
+);
+
+// 테마 변수와 관련된 모든 내용을 한 번에 내보냄
+@forward "sass:map";
+@forward "sass:meta";
