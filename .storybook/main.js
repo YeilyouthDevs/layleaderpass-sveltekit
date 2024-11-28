@@ -2,17 +2,18 @@
 
 /** @type { import('@storybook/sveltekit').StorybookConfig } */
 const config = {
-  "stories": [
+  stories: [
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|ts|svelte)"
   ],
-  "addons": [
+  staticDirs: ['../static'],
+  addons: [
     "@storybook/addon-svelte-csf",
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-interactions"
   ],
-  "framework": {
+  framework: {
     "name": "@storybook/sveltekit",
     "options": {}
   }
