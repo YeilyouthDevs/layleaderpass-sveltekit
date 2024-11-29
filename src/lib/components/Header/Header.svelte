@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { session } from '$lib/stores/session.svelte';
 	import { theme } from '$lib/stores/theme.svelte';
 	import { slide } from 'svelte/transition';
@@ -39,8 +40,8 @@
 		class="flex-column justify-items-center border-b border-zinc-300 p-2 md:flex md:justify-items-start md:gap-7"
 	>
 		<div class="relative flex w-full justify-center md:w-auto">
-			{@render BrandName('md:hidden absolute left-0')}
-			{@render Brand()}
+			{@render Brand('md:hidden absolute left-0', true)}
+			{@render Brand('hidden md:block me-6')}
 			{@render MenuButton()}
 		</div>
 
@@ -52,15 +53,19 @@
 </div>
 
 {#snippet BrandName(clazz?: string)}
-	<p class="text-nowrap text-lg font-bold text-zinc-900 dark:text-zinc-100 {clazz}">중직자PASS</p>
+	<button class="text-nowrap text-lg font-bold text-zinc-900 dark:text-zinc-100 {clazz}"
+		>중직자PASS</button
+	>
 {/snippet}
 
-{#snippet Brand()}
-	<div class="flex items-center gap-2">
-		<img class="block h-7 dark:hidden" src="logo.png" alt="로고" />
-		<img class="hidden h-7 dark:block" src="logo-dark.png" alt="로고 (다크)" />
-		{@render BrandName('hidden md:block me-6')}
-	</div>
+{#snippet Brand(nameClazz: string, hideLogo?: boolean)}
+	<button class="flex items-center gap-2" onclick={() => goto('/')}>
+		{#if !hideLogo}
+			<img class="block h-7 dark:hidden" src="logo.png" alt="로고" />
+			<img class="hidden h-7 dark:block" src="logo-dark.png" alt="로고 (다크)" />
+		{/if}
+		{@render BrandName(nameClazz)}
+	</button>
 {/snippet}
 
 {#snippet Menu(clazz?: string)}
@@ -92,8 +97,12 @@
 
 {#snippet MenuButton()}
 	<button class="absolute right-0 h-7 md:hidden" onclick={() => (isMenuOpen = !isMenuOpen)}>
-		<img class="block h-full w-full dark:hidden" src="images/menu.png" alt="메뉴" />
-		<img class="hidden h-full w-full dark:block" src="images/menu-dark.png" alt="메뉴 (다크)" />
+		<img class="block h-full w-full dark:hidden" src="images/icons/menu.png" alt="메뉴" />
+		<img
+			class="hidden h-full w-full dark:block"
+			src="images/icons/menu-dark.png"
+			alt="메뉴 (다크)"
+		/>
 	</button>
 {/snippet}
 
@@ -102,18 +111,26 @@
 		<!-- 버튼이 역순으로 나타남 -->
 
 		{#if !session.isLogined()}
-			{@render QuickPanelItem('로그인', 'images/login.png', 'images/login-dark.png', () => {
-				console.log('로그인');
-			})}
+			{@render QuickPanelItem(
+				'로그인',
+				'images/icons/login.png',
+				'images/icons/login-dark.png',
+				() => { goto('/login') }
+			)}
 
-			{@render QuickPanelItem('회원가입', 'images/register.png', 'images/register-dark.png', () => {
-				console.log('회원가입');
-			})}
+			{@render QuickPanelItem(
+				'회원가입',
+				'images/icons/register.png',
+				'images/icons/register-dark.png',
+				() => {
+					console.log('회원가입');
+				}
+			)}
 
 			{@render QuickPanelItem(
 				'계정찾기',
-				'images/find-account.png',
-				'images/find-account-dark.png',
+				'images/icons/find-account.png',
+				'images/icons/find-account-dark.png',
 				() => {
 					console.log('계정찾기');
 				}
@@ -122,11 +139,10 @@
 
 		{@render QuickPanelItem(
 			'테마변경',
-			'images/toggle-theme.png',
-			'images/toggle-theme-dark.png',
+			'images/icons/toggle-theme.png',
+			'images/icons/toggle-theme-dark.png',
 			() => theme.toggleTheme()
 		)}
-		
 	</div>
 {/snippet}
 

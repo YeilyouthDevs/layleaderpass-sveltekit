@@ -5,19 +5,27 @@
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/stores/theme.svelte';
 	import Footer from '$lib/components/Footer/Footer.svelte';
+	import { page } from '$app/stores';
+	import { fade, fly } from 'svelte/transition';
 	let { children } = $props();
 
 	// 페이지 로드 시 테마 복원
 	onMount(() => {
 		const savedTheme = localStorage.getItem('theme');
-		if(savedTheme === 'dark') theme.setTheme('dark');
+		if (savedTheme === 'dark') theme.setTheme('dark');
 	});
 </script>
 
 <main>
-	<div class="h-screen w-screen dark:bg-zinc-800 flex flex-col">
+	<div class="flex h-screen w-screen flex-col dark:bg-zinc-800">
 		<Header />
-		<div class="flex-grow p-2">{@render children()}</div>
+
+		{#key $page.url.pathname}
+			<div class="flex-grow px-2 py-4" in:fly={{ duration: 800, y: 15 }}>
+				{@render children()}
+			</div>
+		{/key}
+
 		<Footer />
 	</div>
 </main>
