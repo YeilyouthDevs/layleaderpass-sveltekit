@@ -1,14 +1,19 @@
 type ThemeType = {
-    currentTheme: 'dark' | 'light'
+    currentTheme: 'dark' | 'light';
 };
 
 export class ThemeStore {
-    store: ThemeType = $state({
+    store: ThemeType = {
         currentTheme:
             localStorage.getItem('theme') === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches
                 ? 'dark'
                 : 'light',
-    });
+    };
+
+    constructor() {
+        // 초기화 시 클래스 동기화
+        this.updateThemeClass();
+    }
 
     isDarkMode(): boolean {
         return this.store.currentTheme === 'dark';
@@ -27,7 +32,7 @@ export class ThemeStore {
     }
 
     private updateThemeClass(): void {
-        const mainElement = document.querySelector('main');
+        const mainElement = document.documentElement; // `<html>` 태그에 클래스를 추가
         if (mainElement) {
             mainElement.classList.toggle('dark', this.store.currentTheme === 'dark');
         }

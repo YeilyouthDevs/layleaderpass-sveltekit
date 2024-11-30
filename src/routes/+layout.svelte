@@ -11,10 +11,9 @@
 
 	// 페이지 로드 시 테마 복원
 	onMount(() => {
-		const savedTheme = localStorage.getItem('theme');
-		if (savedTheme === 'dark') theme.setTheme('dark');
+		const savedTheme = localStorage.getItem('theme') || 'light'; // 기본값은 'light'
+		theme.setTheme(savedTheme as 'light' | 'dark'); // 초기화 및 동기화
 	});
-
 </script>
 
 <main>
