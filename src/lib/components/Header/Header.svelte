@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { session } from '$lib/stores/session.svelte';
 	import { theme } from '$lib/stores/theme.svelte';
+	import { viewport } from '$lib/stores/viewport.svelte';
 	import { slide } from 'svelte/transition';
 
 	let isMenuOpen = $state(false);
@@ -33,9 +34,10 @@
 	// 		console.log(session);
 	// 	}, 3000);
 	// });
+
 </script>
 
-<div>
+<div bind:clientHeight={viewport.headerHeight}>
 	<div
 		class="flex-column justify-items-center border-b border-zinc-300 p-2 md:flex md:justify-items-start md:gap-7"
 	>
@@ -115,16 +117,14 @@
 				'로그인',
 				'images/icons/login.png',
 				'images/icons/login-dark.png',
-				() => { goto('/login') }
+				() => goto('/login')
 			)}
 
 			{@render QuickPanelItem(
 				'회원가입',
 				'images/icons/register.png',
 				'images/icons/register-dark.png',
-				() => {
-					console.log('회원가입');
-				}
+				() => goto('/register')
 			)}
 
 			{@render QuickPanelItem(
