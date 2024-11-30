@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Division from '$lib/components/Division/Division.svelte';
 </script>
 
@@ -16,7 +17,7 @@
 		<hr class="my-2" />
 		<button class="btn btn-primary w-full">로그인</button>
 		<div class="flex gap-2">
-			<button class="btn btn-success w-full">회원가입</button>
+			<button class="btn btn-success w-full" onclick={() => goto('/register')}>회원가입</button>
 			<button class="btn btn-secondary w-full">계정찾기</button>
 		</div>
 	</div>

@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { viewport } from '$lib/stores/viewport.svelte';
+
 </script>
 
-<div class="bg-zinc-500 p-2 text-zinc-100 dark:bg-zinc-600 dark:text-zinc-200 text-center text-xs">
+<div class="bg-zinc-500 p-2 text-zinc-100 dark:bg-zinc-600 dark:text-zinc-200 text-center text-xs"
+    bind:clientHeight={viewport.footerHeight}
+>
 	<div>중직자PASS © 2025 예일교회 청년국 미래분과 중직자팀</div>
     <div class="flex justify-center gap-5 text-sm mt-1">
         {@render button('개인정보처리방침•이용약관')}
