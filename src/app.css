@@ -66,7 +66,7 @@ input:disabled {
 }
 
 .btn:disabled, .btn-thin:disabled {
-    @apply bg-zinc-200 dark:bg-zinc-600;
+    @apply bg-zinc-200 dark:bg-zinc-600 opacity-60;
 }
 
 .btn-primary {

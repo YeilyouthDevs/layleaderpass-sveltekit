@@ -30,6 +30,7 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
 		"@types/eslint": "^9.6.0",
+		"@types/lodash-es": "^4.17.12",
 		"autoprefixer": "^10.4.20",
 		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -56,6 +57,7 @@
 		"ajv": "^8.17.1",
 		"ajv-errors": "^3.0.0",
 		"ajv-formats": "^3.0.1",
-		"axios": "^1.7.8"
+		"axios": "^1.7.8",
+		"lodash-es": "^4.17.21"
 	}
 }
