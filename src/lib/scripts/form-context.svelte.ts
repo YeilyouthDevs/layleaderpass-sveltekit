@@ -5,115 +5,65 @@
     작성자: 김주현
 */
 
-type FieldDefinition<T> = {
-    [K in keyof T]: T[K] extends object
-    ? T[K] // 객체는 그대로 사용
-    : T[K]; // 단순 값은 그대로 사용
-};
-
-type ResolvedFields<T> = {
-    [K in keyof T]: T[K] extends Date | Boolean
-    ? T[K]
-    : T[K] extends string
-    ? string
-    : T[K]; // 단순 값은 기본 타입으로 추론
-};
-
 export class FormContext {
-    /**
-     * 공통 처리 메서드
-     * - 단순 값은 기본 타입으로 추론
-     * - `as unknown as` 사용 시 명시적으로 지정된 타입 사용
-     *
-     * @param fields - 초기화할 필드 정의
-     * @returns 초기화된 필드 값
-     * @example
-     * ```typescript
-     * const fields = $state(FormContext.initialize({
-     *     name: '', // string으로 추론
-     *     age: 0, // number로 추론
-     *     birthday: '' as unknown as Date, // 명시적으로 Date로 지정
-     * }));
-     * console.log(fields.name); // string
-     * console.log(fields.birthday); // Date
-     * ```
-     */
-    private static initialize<T>(fields: FieldDefinition<T>): ResolvedFields<T> {
-        const result: any = {};
-        for (const key in fields) {
-            const field = fields[key];
-            result[key] = field; // 그대로 값을 사용
-        }
-        return result as ResolvedFields<T>;
+    binds: any;
+    states: any;
+    messages: any;
+
+    constructor(binds: any, states: any, messages: any) {
+        this.binds = binds;
+        this.states = states;
+        this.messages = messages;
     }
 
     /**
-     * binds 선언 메서드
-     * - 사용자가 입력한 데이터를 초기화
+     * 모든 인스턴스 메서드를 병렬 실행
      *
-     * @param fields - 초기화할 bind 필드 정의
-     * @returns 초기화된 bind 필드 값
-     * @example
-     * ```typescript
-     * const binds = $state(FormContext.binds({
-     *     email: '', // string으로 추론
-     *     birthday: '' as unknown as Date | Boolean, // 명시적으로 Date | Boolean 지정
-     * }));
-     * console.log(binds.email); // string
-     * console.log(binds.birthday); // Date | Boolean
-     * ```
+     * @returns 메서드 이름과 결과를 포함한 객체
      */
-    static binds<T>(fields: FieldDefinition<T>): ResolvedFields<T> {
-        return this.initialize(fields);
-    }
+    async runAllInstanceMethods(): Promise<Record<string, any>> {
+        const methodResults: Record<string, any> = {};
 
-    /**
-     * states 선언 메서드
-     * - 컴포넌트의 상태를 초기화
-     *
-     * @param fields - 초기화할 state 필드 정의
-     * @returns 초기화된 state 필드 값
-     * @example
-     * ```typescript
-     * const states = $state(FormContext.states({
-     *     isLoggedIn: false, // boolean으로 추론
-     *     lastLogin: '' as unknown as Date | null, // 명시적으로 Date | null 지정
-     * }));
-     * console.log(states.isLoggedIn); // boolean
-     * console.log(states.lastLogin); // Date | null
-     * ```
-     */
-    static states<T>(fields: FieldDefinition<T>): ResolvedFields<T> {
-        return this.initialize(fields);
-    }
+        const prototype = Object.getPrototypeOf(this);
+        const methodNames = Object.getOwnPropertyNames(prototype)
+            .filter(
+                name =>
+                    name !== 'constructor' &&
+                    typeof (this as any)[name] === 'function'
+            );
 
-    /**
-     * messages 선언 메서드
-     * - 항상 string 타입으로 처리
-     *
-     * @param fields - 초기화할 메시지 필드 정의
-     * @returns 초기화된 메시지 필드 값
-     * @example
-     * ```typescript
-     * const messages = $state(FormContext.messages({
-     *     error: 'Something went wrong', // string
-     *     success: 'Operation successful', // string
-     * }));
-     * console.log(messages.error); // string
-     * console.log(messages.success); // string
-     * ```
-     */
-    static messages<T extends Record<string, string>>(fields: T): T {
-        return fields;
-    }
+        // 병렬 실행
+        const results = await Promise.all(
+            methodNames.map(async methodName => {
+                try {
+                    const method = (this as any)[methodName] as () => Promise<any>;
+                    const result = await method.call(this); // 비동기로 실행
+                    return { name: methodName, result };
+                } catch (error: any) {
+                    return { name: methodName, result: `Error: ${error.message}` };
+                }
+            })
+        );
 
+        // 결과 정리
+        results.forEach(({ name, result }) => {
+            methodResults[name] = result;
+        });
+
+        return methodResults;
+    }
+    
     /**
      * messages가 모두 비어 있는지 확인하는 유틸리티 메서드
      *
-     * @param messages - 확인할 메시지 객체
+     * @param keys - 확인할 메시지 키 배열 (생략 시 전체 메시지 확인)
      * @returns 모든 메시지가 비어 있으면 true, 아니면 false
      */
-    static isMessagesClear(messages: Record<string, string>): boolean {
-        return Object.values(messages).every(value => value.trim() === '');
+    isMessagesClear(keys?: string[]): boolean {
+        const targetMessages = keys
+            ? keys.map(key => this.messages[key]).filter(value => value !== undefined) // 선택된 키만 확인
+            : Object.values(this.messages); // 전체 메시지 확인
+
+        return targetMessages.every(value => (value as string).trim() === '');
     }
 }

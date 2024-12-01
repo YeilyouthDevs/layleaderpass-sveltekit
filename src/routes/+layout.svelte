@@ -7,6 +7,7 @@
 	import Footer from '$lib/components/Footer/Footer.svelte';
 	import { page } from '$app/stores';
 	import { fly } from 'svelte/transition';
+	import LoadingScreen from '$lib/components/LoadingScreen/LoadingScreen.svelte';
 	let { children } = $props();
 
 	// 페이지 로드 시 테마 복원
@@ -29,3 +30,5 @@
 		<Footer />
 	</div>
 </main>
+
+<LoadingScreen />
