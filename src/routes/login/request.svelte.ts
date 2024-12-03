@@ -21,6 +21,7 @@ export class LoginRequest extends FormContext {
             session.store.name = name;
 
             goto('/dashboard')
+            session.startAutoRefresh();
         } catch (error: any) {
             alert(error.response.data.message)
             console.error(error);
@@ -44,7 +45,7 @@ export class LoginRequest extends FormContext {
         }
     }
 
-    static async refresh() {
+    static async refresh(args?: { disableAutoRefresh?: boolean }) {
         try {
     
             const response = await axios.put('/api/session/refresh', {
@@ -57,6 +58,7 @@ export class LoginRequest extends FormContext {
             session.store.name = name;
             session.store.email = email;
 
+            if(!args?.disableAutoRefresh) session.startAutoRefresh();
         } catch (error: any) {
             console.error(error);
 
