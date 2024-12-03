@@ -4,6 +4,7 @@
 	import { theme } from '$lib/stores/theme.svelte';
 	import { viewport } from '$lib/stores/viewport.svelte';
 	import { slide } from 'svelte/transition';
+	import { LoginRequest } from '../../../routes/login/request.svelte';
 
 	let isMenuOpen = $state(false);
 
@@ -13,28 +14,12 @@
 	};
 
 	const menuItems: MenuItem[] = [
-		{
-			name: '대시보드',
-			onClick: () => {
-				console.log('dashboard');
-			}
-		},
+		{ name: '대시보드', onClick: () => goto('/dashboard') },
 		{ name: '중직자PASS란?' },
 		{ name: '참여방법' },
 		{ name: '공지사항' },
-		{ name: '훈련' }
+		{ name: '훈련', onClick: () => goto('/training') }
 	];
-
-	// onMount(() => {
-	// 	setTimeout(() => {
-	// 		session.store.email = 'abc1234@example.com';
-	// 		session.store.name = '홍길동';
-	// 		session.store.accessToken = 'aj39fdjf2jfdk';
-
-	// 		console.log(session);
-	// 	}, 3000);
-	// });
-
 </script>
 
 <div bind:clientHeight={viewport.headerHeight}>
@@ -61,10 +46,13 @@
 {/snippet}
 
 {#snippet Brand(nameClazz: string, hideLogo?: boolean)}
-	<button class="flex items-center gap-2" onclick={() => goto('/')}>
+	<button
+		class="flex items-center gap-2"
+		onclick={() => goto(session.isLogined() ? '/dashboard' : '/')}
+	>
 		{#if !hideLogo}
-			<img class="block h-7 dark:hidden" src="logo.png" alt="로고" />
-			<img class="hidden h-7 dark:block" src="logo-dark.png" alt="로고 (다크)" />
+			<img class="block h-7 dark:hidden" src="/logo.png" alt="로고" />
+			<img class="hidden h-7 dark:block" src="/logo-dark.png" alt="로고 (다크)" />
 		{/if}
 		{@render BrandName(nameClazz)}
 	</button>
@@ -87,22 +75,22 @@
 {/snippet}
 
 {#snippet MenuItems(clazz?: string)}
-	{#if session.isLogined()}
-		{#each menuItems as item}
-			<button
-				class="min-w-24 text-nowrap transition-colors duration-150 ease-in-out hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400 {clazz}"
-				onclick={() => item.onClick?.()}>{item.name}</button
-			>
-		{/each}
-	{/if}
+	{#each menuItems as item}
+		<button
+			class="min-w-24 text-nowrap transition-colors duration-150 ease-in-out hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400 {clazz}"
+			onclick={() => {
+				item.onClick?.()
+			}}>{item.name}</button
+		>
+	{/each}
 {/snippet}
 
 {#snippet MenuButton()}
 	<button class="absolute right-0 h-7 md:hidden" onclick={() => (isMenuOpen = !isMenuOpen)}>
-		<img class="block h-full w-full dark:hidden" src="images/icons/menu.png" alt="메뉴" />
+		<img class="block h-full w-full dark:hidden" src="/images/icons/menu.png" alt="메뉴" />
 		<img
 			class="hidden h-full w-full dark:block"
-			src="images/icons/menu-dark.png"
+			src="/images/icons/menu-dark.png"
 			alt="메뉴 (다크)"
 		/>
 	</button>
@@ -115,32 +103,50 @@
 		{#if !session.isLogined()}
 			{@render QuickPanelItem(
 				'로그인',
-				'images/icons/login.png',
-				'images/icons/login-dark.png',
+				'/images/icons/login.png',
+				'/images/icons/login-dark.png',
 				() => goto('/login')
 			)}
 
 			{@render QuickPanelItem(
 				'회원가입',
-				'images/icons/register.png',
-				'images/icons/register-dark.png',
+				'/images/icons/register.png',
+				'/images/icons/register-dark.png',
 				() => goto('/register')
 			)}
 
 			{@render QuickPanelItem(
 				'계정찾기',
-				'images/icons/find-account.png',
-				'images/icons/find-account-dark.png',
+				'/images/icons/find-account.png',
+				'/images/icons/find-account-dark.png',
 				() => {
 					console.log('계정찾기');
+				}
+			)}
+		{:else}
+			{@render QuickPanelItem(
+				'로그아웃',
+				'/images/icons/logout.png',
+				'/images/icons/logout-dark.png',
+				() => {
+					LoginRequest.logout();
+				}
+			)}
+
+			{@render QuickPanelItem(
+				'마이페이지',
+				'/images/icons/mypage.png',
+				'/images/icons/mypage-dark.png',
+				() => {
+					console.log('마이페이지');
 				}
 			)}
 		{/if}
 
 		{@render QuickPanelItem(
 			'테마변경',
-			'images/icons/toggle-theme.png',
-			'images/icons/toggle-theme-dark.png',
+			'/images/icons/toggle-theme.png',
+			'/images/icons/toggle-theme-dark.png',
 			() => theme.toggleTheme()
 		)}
 	</div>
