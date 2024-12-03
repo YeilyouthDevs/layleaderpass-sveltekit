@@ -5,11 +5,19 @@ type SessionType = {
 }
 
 export class SessionStore {
-    store: SessionType = $state({})
+    store: SessionType = $state({});
 
     isLogined() {
-        return this.store.email && this.store.name && this.store.accessToken;
+        const logined = this.store.email && this.store.name && this.store.accessToken
+        return logined;
     }
+
+    reset() {
+        this.store.email = undefined;
+        this.store.name = undefined;
+        this.store.accessToken = undefined;
+    }
+   
 }
 
 export const session = new SessionStore();
