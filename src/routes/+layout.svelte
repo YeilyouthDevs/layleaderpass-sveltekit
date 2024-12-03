@@ -9,7 +9,9 @@
 	import { fly } from 'svelte/transition';
 	import LoadingScreen from '$lib/components/LoadingScreen/LoadingScreen.svelte';
 	import { session } from '$lib/stores/session.svelte';
-		
+	import Alert from '$lib/components/Alert/Alert.svelte';
+	
+
 	let { children } = $props();
 
 	// 페이지 로드 시 테마 복원
@@ -19,17 +21,10 @@
 	});
 
 	// 페이지가 띄워져있는지 감지
-	document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible") {
-                // 화면이 활성화되었을 때 refresh 시작
-                session.startAutoRefresh();
-                console.log('visible')
-            } else {
-                // 화면이 비활성화되었을 때 refresh 중지
-                session.stopAutoRefresh();
-                console.log('invisible')
-            }
-        });
+	document.addEventListener('visibilitychange', () => {
+		if (document.visibilityState === 'visible') session.startAutoRefresh();
+		else session.stopAutoRefresh();
+	});
 </script>
 
 <main>
@@ -44,7 +39,8 @@
 
 		<Footer />
 	</div>
-</main>
 
-
+<Alert  />
 <LoadingScreen />
+
+</main>

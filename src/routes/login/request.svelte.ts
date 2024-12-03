@@ -1,5 +1,7 @@
 import { goto } from "$app/navigation";
 import { FormContext } from "$lib/scripts/form-context.svelte";
+import { genMessage } from "$lib/scripts/form-message-tool";
+import { alert } from "$lib/stores/alert.svelte";
 import { session } from "$lib/stores/session.svelte";
 import axios from "axios";
 
@@ -7,7 +9,7 @@ export class LoginRequest extends FormContext {
 
     async login() {
         const { email, password } = this.binds;
-        if (!email || !password) return alert('이메일과 비밀번호를 모두 입력해주세요.');
+        if (!email || !password) return alert.show({ content: genMessage({ message: '이메일과 비밀번호를 모두 입력해주세요.' }) });
 
         try {
             const response = await axios.post('/api/session/login', {
@@ -23,7 +25,7 @@ export class LoginRequest extends FormContext {
             goto('/dashboard')
             session.startAutoRefresh();
         } catch (error: any) {
-            alert(error.response.data.message)
+            alert.show({ content: genMessage({ message: error.response.data.message }) })
             console.error(error);
         }
     }
@@ -37,10 +39,10 @@ export class LoginRequest extends FormContext {
                 session.reset();
             }
 
-            alert('로그아웃 되었습니다.');
+            alert.show({ content: genMessage({ message: '로그아웃 되었습니다.' }) });
             goto('/');
         } catch (error: any) {
-            alert(error.response.data.message);
+            alert.show({ content: genMessage({ message: error.response.data.message }) });
             console.error(error);
         }
     }
@@ -63,7 +65,7 @@ export class LoginRequest extends FormContext {
             console.error(error);
 
             const { message, needLogin } = error.response.data;
-            alert(message);
+            alert.show({ content: genMessage({ message: message }) });
 
             if (needLogin) {
                 session.reset();
