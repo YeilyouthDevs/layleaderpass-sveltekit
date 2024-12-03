@@ -78,9 +78,7 @@
 	{#each menuItems as item}
 		<button
 			class="min-w-24 text-nowrap transition-colors duration-150 ease-in-out hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400 {clazz}"
-			onclick={() => {
-				item.onClick?.()
-			}}>{item.name}</button
+			onclick={() => item.onClick?.()}>{item.name}</button
 		>
 	{/each}
 {/snippet}

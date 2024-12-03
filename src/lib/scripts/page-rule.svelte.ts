@@ -1,5 +1,4 @@
 import { goto } from "$app/navigation";
-import { error } from "@sveltejs/kit";
 import { LoginRequest } from "../../routes/login/request.svelte";
 import { session } from "../stores/session.svelte";
 

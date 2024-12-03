@@ -6,20 +6,20 @@ export class RegisterValidation extends FormContext {
     email() {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         this.messages.email = !regex.test(this.binds.email)
-            ? genMessage('small', 'text-error', '이메일 형식이 올바르지 않습니다.')
+            ? genMessage({ tagName: 'small', class: 'text-error', message: '이메일 형식이 올바르지 않습니다.' })
             : '';
     }
     
     password() {
         const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
         this.messages.password = !regex.test(this.binds.password)
-            ? genMessage('small', 'text-error', '비밀번호 형식이 올바르지 않습니다.')
+            ? genMessage({ tagName: 'small', class: 'text-error', message: '비밀번호 형식이 올바르지 않습니다.' })
             : '';
     }
     
     passwordCheck() {
         this.messages.passwordCheck = this.binds.password !== this.binds.passwordCheck
-            ? genMessage('small', 'text-error', '비밀번호가 서로 일치하지 않습니다.')
+            ? genMessage({ tagName: 'small', class: 'text-error', message: '비밀번호가 서로 일치하지 않습니다.' })
             : '';
     }
 
@@ -28,7 +28,7 @@ export class RegisterValidation extends FormContext {
         const { name } = this.binds;
     
         if (!regex.test(name.trim())) {
-            this.messages.name = genMessage('small', 'text-error', '이름은 최소 1자 이상, 최대 30자 이하여야 합니다.');
+            this.messages.name = genMessage({ tagName: 'small', class: 'text-error', message: '이름은 최소 1자 이상, 최대 30자 이하여야 합니다.' });
             return;
         }
     
@@ -38,7 +38,7 @@ export class RegisterValidation extends FormContext {
     phone() {
         const regex = /^\d{1,15}$/;
         const { phone } = this.binds;
-        this.messages.phone = (!regex.test(phone)) ? genMessage('small', 'text-error', '연락처는 최대 15자 숫자만 입력해야 합니다.') : '';
+        this.messages.phone = (!regex.test(phone)) ? genMessage({ tagName: 'small', class: 'text-error', message: '연락처는 최대 15자 숫자만 입력해야 합니다.' }) : '';
     }
 
     birthday() {
@@ -47,7 +47,7 @@ export class RegisterValidation extends FormContext {
     
         // 기본 유효성 검사
         if (!regex.test(birthday)) {
-            this.messages.birthday = genMessage('small', 'text-error', '생년월일은 YYYYMMDD 형식의 8자리 숫자로 입력해야 합니다.');
+            this.messages.birthday = genMessage({ tagName: 'small', class: 'text-error', message: '생년월일은 YYYYMMDD 형식의 8자리 숫자로 입력해야 합니다.' });
             return;
         }
     
@@ -60,19 +60,19 @@ export class RegisterValidation extends FormContext {
     
         // 연도, 월, 일 유효성 검사
         if (year < 1900 || year > currentYear) {
-            this.messages.birthday = genMessage('small', 'text-error', '유효한 연도를 입력하세요 (1900 ~ 현재 연도).');
+            this.messages.birthday = genMessage({ tagName: 'small', class: 'text-error', message: '유효한 연도를 입력하세요 (1900 ~ 현재 연도)' });
             return;
         }
     
         if (month < 1 || month > 12) {
-            this.messages.birthday = genMessage('small', 'text-error', '유효한 월을 입력하세요 (1 ~ 12).');
+            this.messages.birthday = genMessage({ tagName: 'small', class: 'text-error', message: '유효한 월을 입력하세요 (1 ~ 12)}' });
             return;
         }
     
         // 월별 일 수 확인
         const daysInMonth = new Date(year, month, 0).getDate();
         if (day < 1 || day > daysInMonth) {
-            this.messages.birthday = genMessage('small', 'text-error', `유효한 일을 입력하세요 (1 ~ ${daysInMonth}).`);
+            this.messages.birthday = genMessage({ tagName: 'small', class: 'text-error', message: `유효한 일을 입력하세요 (1 ~ ${daysInMonth})` });
             return;
         }
     

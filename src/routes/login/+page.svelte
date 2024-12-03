@@ -12,7 +12,7 @@
 
 </script>
 
-<Division name="로그인" clazz="max-w-96 p-4">
+<Division name="로그인" contentClass="max-w-96 p-4">
 	<div class="flex flex-col justify-items-center gap-2">
 		<div class="flex flex-col">
 			<label class="text-sm" for="email">이메일</label>
@@ -20,7 +20,7 @@
 		</div>
 		<div class="flex flex-col">
 			<label class="block text-sm" for="email">비밀번호</label>
-			<input id="password" type="password" bind:value={binds.password} />
+			<input id="password" type="password" bind:value={binds.password} onkeydown={(e) => (e.key === 'Enter') ? r.login() : null} />
 		</div>
 
 		<hr class="my-2" />
