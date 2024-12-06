@@ -24,7 +24,6 @@ class PageRuleStore {
             if (!session.store.accessToken) await LoginRequest.refresh();
 
             if (session.isLogined()) {
-                alert.show({ content: genMessage({ message: '올바르지 않은 접근입니다.' }) });
                 return goto('/dashboard', { replaceState: true });
             }    
         } catch (error) {
