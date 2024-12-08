@@ -24,35 +24,35 @@ export class SessionStore {
         this.store.accessToken = undefined;
     }
 
-    async startAutoRefresh() {
-        if (this.refreshInterval || !this.isLogined()) return;
+    // async startAutoRefresh() {
+    //     if (this.refreshInterval || !this.isLogined()) return;
 
-        if (this.refreshStopDate) {
-            const now = new Date();
-            const elapsed = now.getTime() - this.refreshStopDate.getTime();
+    //     if (this.refreshStopDate) {
+    //         const now = new Date();
+    //         const elapsed = now.getTime() - this.refreshStopDate.getTime();
 
-            if (elapsed < this.REFRESH_INTERVAL) {
-                const waitTime = this.REFRESH_INTERVAL - elapsed;
-                await sleep(waitTime);
-            }
+    //         if (elapsed < this.REFRESH_INTERVAL) {
+    //             const waitTime = this.REFRESH_INTERVAL - elapsed;
+    //             await sleep(waitTime);
+    //         }
 
-            await LoginRequest.refresh({ disableAutoRefresh: true });
-            this.refreshStopDate = undefined;
-        }
+    //         await LoginRequest.refresh({ disableAutoRefresh: true });
+    //         this.refreshStopDate = undefined;
+    //     }
 
-        this.refreshInterval = setInterval(async () => {
-            await LoginRequest.refresh({ disableAutoRefresh: true });
-        }, this.REFRESH_INTERVAL);
+    //     this.refreshInterval = setInterval(async () => {
+    //         await LoginRequest.refresh({ disableAutoRefresh: true });
+    //     }, this.REFRESH_INTERVAL);
 
-    }
+    // }
 
-    stopAutoRefresh() {
-        if (this.refreshInterval) {
-            clearInterval(this.refreshInterval);
-            this.refreshInterval = undefined;
-            this.refreshStopDate = new Date();
-        }
-    }
+    // stopAutoRefresh() {
+    //     if (this.refreshInterval) {
+    //         clearInterval(this.refreshInterval);
+    //         this.refreshInterval = undefined;
+    //         this.refreshStopDate = new Date();
+    //     }
+    // }
    
 }
 

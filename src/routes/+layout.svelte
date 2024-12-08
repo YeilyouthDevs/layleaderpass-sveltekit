@@ -22,8 +22,8 @@
 
 	// 페이지가 띄워져있는지 감지
 	document.addEventListener('visibilitychange', () => {
-		if (document.visibilityState === 'visible') session.startAutoRefresh();
-		else session.stopAutoRefresh();
+		// if (document.visibilityState === 'visible') session.startAutoRefresh();
+		// else session.stopAutoRefresh();
 	});
 </script>
 
