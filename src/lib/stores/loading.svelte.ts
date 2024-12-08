@@ -2,24 +2,22 @@ import { debounce } from "lodash-es";
 
 export class LoadingStore {
     isLoading = $state(false);
-    private timeoutId: any;
 
-    constructor() {
-        this.show = debounce(this.show.bind(this), 200); // 200ms debounce
-    }
-
-    show() {
+    // 200ms 디바운스된 show 메서드
+    show = debounce(() => {
         this.isLoading = true;
+    }, 200);
+
+    // 즉시 로딩 상태를 표시하는 showNow 메서드
+    showNow() {
+        this.isLoading = true;
+        this.show.cancel(); // 디바운스된 호출 취소
     }
 
-    hide() {
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId); // 타임아웃 초기화
-        }
-        this.timeoutId = setTimeout(() => {
-            this.isLoading = false; // 200ms 후 로딩 숨김
-        }, 200);
-    }
+    // 200ms 디바운스된 hide 메서드
+    hide = debounce(() => {
+        this.isLoading = false;
+    }, 200);
 }
 
 export const loading = new LoadingStore();

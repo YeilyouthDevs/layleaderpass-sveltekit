@@ -6,6 +6,7 @@
 
 	function closeAlert() {
 		alert.isVisible = false;
+		alert.options.onClose();
 	}
 </script>
 

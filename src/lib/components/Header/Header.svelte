@@ -97,7 +97,7 @@
 {#snippet QuickPanel(clazz?: string)}
 	<div class="scrollbar w-full overflow-x-scroll md:overflow-auto md:px-1 {clazz}">
 		<!-- 버튼이 역순으로 나타남 -->
-
+		 
 		{#if !session.isLogined()}
 			{@render QuickPanelItem(
 				'로그인',
