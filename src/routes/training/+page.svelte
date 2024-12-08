@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Division from '$lib/components/Division/Division.svelte';
 	import { session } from '$lib/stores/session.svelte';
-
 </script>
 
 <Division name="훈련"  contentClass="w-[90%] p-4">

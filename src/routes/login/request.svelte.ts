@@ -16,14 +16,12 @@ export class LoginRequest extends FormContext {
                 email, password
             })
 
-            const { accessToken, name } = response.data;
+            const { name } = response.data;
 
-            session.store.accessToken = accessToken;
             session.store.email = email;
             session.store.name = name;
 
             goto('/dashboard')
-            session.startAutoRefresh();
         } catch (error: any) {
             alert.show({ content: genMessage({ message: error.response.data.message }) })
             console.error(error);
@@ -47,33 +45,14 @@ export class LoginRequest extends FormContext {
         }
     }
 
-    static async refresh(args?: { disableAutoRefresh?: boolean }) {
-        try {
-    
-            const response = await axios.put('/api/session/refresh', {
-                email: session.store.email,
-                accessToken: session.store.accessToken
-            });
+    static async refresh() {
+        const response = await axios.put('/api/session/refresh', {
+            email: session.store.email
+        });
 
-            const { accessToken, name, email } = response.data;
-            session.store.accessToken = accessToken;
-            session.store.name = name;
-            session.store.email = email;
-
-            if(!args?.disableAutoRefresh) session.startAutoRefresh();
-        } catch (error: any) {
-            console.error(error);
-
-            const { message, needLogin } = error.response.data;
-            alert.show({ content: genMessage({ message: message }) });
-
-            if (needLogin) {
-                session.reset();
-                goto('/login');
-            }
-
-            throw error;
-        }
+        const { name, email } = response.data;
+        session.store.name = name;
+        session.store.email = email;
     }
 
 }
