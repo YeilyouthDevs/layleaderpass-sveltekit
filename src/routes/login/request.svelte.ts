@@ -16,10 +16,11 @@ export class LoginRequest extends FormContext {
                 email, password
             })
 
-            const { name } = response.data;
+            const { name, role } = response.data;
 
             session.store.email = email;
             session.store.name = name;
+            session.store.role = role;
 
             goto('/dashboard')
         } catch (error: any) {
@@ -50,9 +51,10 @@ export class LoginRequest extends FormContext {
             email: session.store.email
         });
 
-        const { name, email } = response.data;
+        const { name, email, role } = response.data;
         session.store.name = name;
         session.store.email = email;
+        session.store.role = role;
     }
 
 }

@@ -5,6 +5,7 @@
 	import { viewport } from '$lib/stores/viewport.svelte';
 	import { slide } from 'svelte/transition';
 	import { LoginRequest } from '../../../routes/login/request.svelte';
+	import { UserRole } from '$lib/enums/user-role';
 
 	let isMenuOpen = $state(false);
 
@@ -97,7 +98,7 @@
 {#snippet QuickPanel(clazz?: string)}
 	<div class="scrollbar w-full overflow-x-scroll md:overflow-auto md:px-1 {clazz}">
 		<!-- 버튼이 역순으로 나타남 -->
-		 
+
 		{#if !session.isLogined()}
 			{@render QuickPanelItem(
 				'로그인',
@@ -130,6 +131,17 @@
 					LoginRequest.logout();
 				}
 			)}
+
+			{#if session.store.role! >= UserRole.ADMIN}
+				{@render QuickPanelItem(
+					'관리자설정',
+					'/images/icons/admin-page.png',
+					'/images/icons/admin-page-dark.png',
+					() => {
+						goto('/admin-setting')
+					}
+				)}
+			{/if}
 
 			{@render QuickPanelItem(
 				'마이페이지',

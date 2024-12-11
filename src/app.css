@@ -50,7 +50,7 @@ a {
 }
 
 input {
-    @apply h-9 p-1 rounded-sm border-zinc-400 dark:border-zinc-500 dark:bg-zinc-800 dark:text-zinc-200 !important;
+    @apply h-9 p-1 rounded-sm border-zinc-400 dark:border-zinc-500 dark:bg-zinc-800 dark:text-zinc-200 focus:border-inherit focus:ring-amber-500 !important;
 }
 
 input:disabled {
@@ -87,4 +87,10 @@ input:disabled {
 
 .text-success {
     @apply text-green-700 dark:text-green-500 !important;
+}
+
+select {
+    @apply py-1.5 border-2 rounded-sm focus:border-inherit;
+    @apply border-zinc-300 focus:ring-amber-500;
+    @apply dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200;
 }
