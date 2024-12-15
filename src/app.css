@@ -81,6 +81,10 @@ input:disabled {
     @apply border-emerald-400 text-emerald-400 hover:border-emerald-500 hover:text-emerald-500 dark:hover:border-emerald-300 dark:hover:text-emerald-300 !important;
 }
 
+.text-secondary {
+    @apply text-zinc-500 dark:text-zinc-400;
+}
+
 .text-error {
     @apply text-red-600 dark:text-red-400 !important;
 }

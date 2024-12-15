@@ -8,7 +8,8 @@
 	import { page } from '$app/stores';
 	import LoadingScreen from '$lib/components/LoadingScreen/LoadingScreen.svelte';
 	import Alert from '$lib/components/Alert/Alert.svelte';
-
+	import { pageAnimation } from '$lib/stores/page-animation.svelte';
+	
 	let { children } = $props();
 
 	// 페이지 로드 시 테마 복원
@@ -17,12 +18,12 @@
 		theme.setTheme(savedTheme as 'light' | 'dark');
 	});
 
-	let pageAnim = $state(false);
+	let animTrig = $state(false);
 
 	// 페이지 변경 감지, 애니메이션 재생
 	page.subscribe(() => {
-		pageAnim = true;
-		setTimeout(() => pageAnim = false, 500); //page-fly 재생시간과 동일하게
+		animTrig = true;
+		setTimeout(() => animTrig = false, 500); //page-fly 재생시간과 동일하게
 	});
 </script>
 
@@ -31,7 +32,7 @@
 		<Header />
 
 		<div class={`flex-grow px-2 py-4`}
-			class:page-fly={pageAnim}
+			class:page-fly={pageAnimation.state && animTrig}
 		>
 			{@render children()}
 		</div>
