@@ -50,7 +50,7 @@
 		transition:fly={{ duration: 300, y: -50 }}
 	>
 		<div
-			class="flex max-h-[90%] w-3/4 flex-col rounded-sm bg-zinc-200 shadow-lg dark:bg-zinc-700 md:w-96"
+			class="flex max-h-[90%] w-[95%] max-w-96 flex-col rounded-sm bg-zinc-100 shadow-lg dark:bg-zinc-700 md:w-96"
 		>
 			<!-- 헤더 -->
 			<div class="mx-3 flex-none border-b-4 border-zinc-400 py-3 dark:border-zinc-300">

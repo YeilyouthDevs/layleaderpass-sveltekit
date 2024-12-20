@@ -50,12 +50,18 @@ a {
 }
 
 input {
-    @apply h-9 p-1 rounded-sm border-zinc-400 dark:border-zinc-500 dark:bg-zinc-800 dark:text-zinc-200 focus:border-inherit focus:ring-amber-500 !important;
+    @apply h-9 p-1 rounded-sm border-zinc-400 dark:border-zinc-500 dark:bg-zinc-800 dark:text-zinc-200 focus:border-inherit focus:ring-amber-500;
 }
 
 input:disabled {
-    @apply bg-zinc-200 dark:bg-zinc-700 !important
+    @apply bg-zinc-200 dark:bg-zinc-700;
 }
+
+input[type="checkbox"] {
+    @apply focus:ring-amber-500 bg-inherit ring-amber-500;
+    @apply checked:focus:bg-amber-500 checked:bg-amber-500 checked:ring-amber-500 checked:hover:bg-amber-500;
+}
+
 
 .btn {
     @apply rounded-sm border-4 py-1 px-2 font-bold;
@@ -93,8 +99,16 @@ input:disabled {
     @apply text-green-700 dark:text-green-500 !important;
 }
 
+.border-light {
+    @apply border-zinc-300 dark:border-zinc-500;
+}
+
 select {
     @apply py-1.5 border-2 rounded-sm focus:border-inherit;
     @apply border-zinc-300 focus:ring-amber-500;
     @apply dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200;
+}
+
+.hr {
+    @apply border-t border-zinc-400;
 }
